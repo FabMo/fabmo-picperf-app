@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8"/>
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
+
+
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/libs/fabmo.js"></script>
+    <script type="text/javascript">
+        var fabmo = new FabMoDashboard();
+    </script>
+<script src="js/control.js"></script>
+<script src="js/config.js"></script>
+<script src="js/jquery.mobile-1.4.5.js"></script>
+<script src="js/paper.js"></script>
+<script src="js/processing.min.js"></script>
+<script src="js/snap.svg-min.js"></script>
+<script src="js/clipper.js"></script>
+
+<style>
+
+#load {
+  position: relative;
+  overflow: hidden;
+  float: center;
+  margin-right: 4px;
+}
+#load input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  transform: translate(-300px, 0) scale(4);
+  font-size: 23px;
+  direction: ltr;
+  cursor: pointer;
+}
+
+#PDF {
+   display:none;
+}
+
+#image {
+   display:none;
+}
+
+#myCanvas {
+   display:none;
+}
+
+
+</style>
+
+
+<img src="img/image.jpg" id="image" alt="img"/>
+<canvas id="myCanvas"> </canvas>
+
+</head>
+
+<body onload="sizeImg();">
+
+<div data-role="page" id="pagezero">
+  <div data-role="header">
+    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-eye ui-btn-icon-left" onclick="toggleFullScreen();">FULLSCREEN</a>
+    <h1>LOAD IMAGE</h1>
+    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-info ui-btn-icon-left" onclick="jobInfo();">JOB INFO</a>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#pageone">SETUP</a></li>
+        <li><a href="#pagezero" class="ui-btn-active ui-state-persist">PicPerf</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="main" class="ui-content" id="container">
+    <canvas id="2D"> </canvas>
+  </div>
+  <div data-role="footer" style="text-align:center;">
+   cutout:
+   <input type="checkbox" data-role="flipswitch" name="cutout" id="cutout" onclick="cutOut();" checked/>
+    <span class="ui-btn ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-left" onchange="startRead()" id="load">
+       <span>LOAD IMAGE</span>
+       <input type="file" name="files[]" id="file" multiple data-role="none"/>
+    </span>
+    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-action ui-btn-icon-right" onclick="make();">SUBMIT JOB</a>
+  </div>
+</div> 
+
+<div data-role="page" id="pageone">
+  <div data-role="header">
+    <h1>SETTINGS  </h1>
+    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-eye ui-btn-icon-left" onclick="toggleFullScreen();">FULLSCREEN</a>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#pageone" class="ui-btn-active ui-state-persist">SETUP</a></li>
+        <li><a href="#pagezero" onclick="sizeImg()">PicPerf</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="main" class="ui-content">
+
+    <form method="post">
+      <fieldset class="ui-field-contain">
+        <label for="dots">HEIGHT</label>
+        <select name="dots" id="dots">
+          <option value="10">10 dots</option>
+          <option value="20">20 dots</option>
+          <option value="30">30 dots</option>
+          <option value="40">40 dots</option>
+          <option value="50" selected>50 dots</option>
+          <option value="60">60 dots</option>
+          <option value="70">70 dots</option>
+          <option value="80">80 dots</option>
+        </select>
+      </fieldset>
+    </form>
+
+    <form method="post">
+      <fieldset class="ui-field-contain">
+        <label for="spacing">DOT SPACING</label>
+        <select name="spacing" id="spacing">
+          <option value="1">1 mm</option>
+          <option value="1.2">1.2 mm</option>
+          <option value="1.5" selected>1.5 mm</option>
+          <option value="2">2 mm</option>
+          <option value="2.5">2.5 mm</option>
+          <option value="3">3 mm</option>
+        </select>
+      </fieldset>
+    </form>
+
+    <form method="post">
+      <fieldset class="ui-field-contain">
+        <label for="depth">MAX DEPTH</label>
+        <select name="depth" id="depth">
+          <option value="0.5">0.5 mm</option>
+          <option value="1" selected>1 mm"</option>
+          <option value="1.5">1.5 mm</option>
+
+
+        </select>
+      </fieldset>
+    </form>
+
+    <form method="post">
+      <fieldset class="ui-field-contain">
+        <label for="material">MATERIAL TYPE</label>
+        <select name="material" id="material">
+          <option value="feed:5000,plunge:1500" selected>PLYWOOD</option>
+        </select>
+      </fieldset>
+    </form>
+<!--
+    <form method="post">
+      <fieldset class="ui-field-contain">
+        <label for="material">MATERIAL THICKNESS</label>
+        <select name="mthickness" id="mthickness">
+          <option value="1.7" selected>0.0625"</option>
+          <option value="3.25">0.125"</option>
+          <option value="6.5">0.25"</option>
+          <option value="13">0.5"</option>
+        </select>
+      </fieldset>
+    </form>
+
+
+    <form method="post">
+      <fieldset class="ui-field-contain">
+        <label for="day">CUTTING TOOL</label>
+        <select name="tool" id="tool">
+
+          <option value="60" selected>60 deg V</option>
+
+
+        </select>
+      </fieldset>
+    </form>
+-->
+</div>
+  <div data-role="footer" style="text-align:center;">
+
+
+    <a href="#pagezero" onclick="reload();" class="ui-btn ui-corner-all ui-shadow ui-icon-carat-r ui-btn-icon-right">MAKE TEXT</a>
+  </div>
+</div> 
+
+
+<script type="application/processing" data-processing-target="2D">
+
+int verts = 100;
+int radius = 40;
+int sf2;
+int sf = 1;
+int x = 0;
+int y = 0;
+int sf;
+perf = [];
+
+void setup(){
+   size($(window).innerWidth()-30,$(window).innerHeight()-180);
+   background(220);
+   noFill();
+   smooth();  
+   frameRate(1);
+   strokeCap(ROUND);
+   strokeWeight(1);
+   textFont(createFont("Arial",6));
+}
+
+void draw(){
+
+
+background(220);
+
+sf2 = (($(window).innerHeight()-180)/(perf[perf.length-1].Y));
+
+size($(window).innerWidth()-30,$(window).innerHeight()-180);
+
+corners();
+//console.log("w:" + width + " h:" + height);
+
+fill(0);
+//stroke(0);
+noStroke();
+
+scale(sf2);
+
+translate(height*0.05/sf2,height*0.05/sf2);
+
+scale(0.9);
+
+
+strokeWeight(1/sf2);
+
+if(perf.length>0){
+
+   for(i=0;i<perf.length;i++){
+
+      ellipse(perf[i].X,perf[i].Y,perf[i].scale,perf[i].scale);
+
+   }
+}
+
+noFill();
+
+
+if(document.getElementById("cutout").checked==true){
+
+
+cutout();
+
+}
+
+
+
+}
+
+
+void cutout(){
+
+stroke(0);
+
+beginShape();
+
+
+
+for (i=0;i<=100;i++) {
+
+   if(i<=25){
+      vertex((perf[wmax-1].X)+Math.sin((Math.PI*2)/100*i)*spacing,(perf[wmax*hmax-1].Y)+Math.cos((Math.PI*2)/100*i)*spacing);
+   }
+   else if((i>25)&&(i<=50)){
+      vertex((perf[wmax-1].X)+Math.sin((Math.PI*2)/100*i)*spacing,(0)+Math.cos((Math.PI*2)/100*i)*spacing);
+   }
+   else if((i>50)&&(i<=75)){
+      vertex((0)+Math.sin((Math.PI*2)/100*i)*spacing,(0)+Math.cos((Math.PI*2)/100*i)*spacing);    
+   }
+   else if((i>75)&&(i<=100)){
+      vertex((0)+Math.sin((Math.PI*2)/100*i)*spacing,(perf[wmax*hmax-1].Y)+Math.cos((Math.PI*2)/100*i)*spacing);
+      if(i==100){
+         vertex(perf[wmax-1].X,perf[wmax*hmax-1].Y+spacing);
+      }
+   }
+
+}
+endShape();
+
+/*
+   beginShape();
+   vertex(-spacing,-spacing);
+   vertex(perf[wmax-1].X+spacing,-spacing);
+   vertex(perf[wmax-1].X+spacing,perf[wmax*hmax-1].Y+spacing);
+   vertex(-spacing,perf[wmax*hmax-1].Y+spacing);
+   vertex(-spacing,-spacing);
+   endShape();
+*/
+
+}
+
+void corners(){
+
+noStroke();
+fill(255);
+
+//ellipse(10,10,3,3);
+
+beginShape();
+for (i=51;i<=75;i++) {
+      vertex(cr+Math.sin((Math.PI*2)/100*i)*cr,cr+Math.cos((Math.PI*2)/100*i)*cr);   
+}
+vertex(0,0)
+endShape(CLOSE);
+
+
+beginShape();
+for (i=1;i<=25;i++) {
+      vertex(width-cr+Math.sin((Math.PI*2)/100*i)*cr,height-cr+Math.cos((Math.PI*2)/100*i)*cr);   
+}
+vertex(width,height)
+endShape(CLOSE);
+
+beginShape();
+for (i=76;i<=100;i++) {
+      vertex(cr+Math.sin((Math.PI*2)/100*i)*cr,height-cr+Math.cos((Math.PI*2)/100*i)*cr);   
+}
+vertex(0,height)
+endShape(CLOSE);
+
+
+beginShape();
+for (i=26;i<=50;i++) {
+
+   if((i>25)&&(i<=50)){
+      vertex(width-cr+Math.sin((Math.PI*2)/100*i)*cr,cr+Math.cos((Math.PI*2)/100*i)*cr);   
+   }
+}
+vertex($(window).innerWidth()-30,0)
+endShape(CLOSE);
+
+}
+
+
+</script>
+
+<script>
+
+var g = ""
+var cr = 10
+var perf = []
+var wmax
+var canvas
+var raster
+var file = ({name:"MonaLisaSmile.jpg"})
+var hmax//no of dots high
+var spacing //grid spacing mm
+
+function sizeImg(){
+
+//console.log(document.getElementById('dots').value)
+hmax = parseInt(document.getElementById('dots').value)
+spacing = parseFloat(document.getElementById('spacing').value)
+canvas = document.getElementById('myCanvas')
+
+paper.setup(canvas)
+
+raster = new paper.Raster('image')
+
+//console.log(raster.width);
+
+raster.visible = false
+
+
+wmax = parseInt(raster.width/raster.height*hmax)
+
+	raster.size = new paper.Size(wmax, hmax);
+   perf=[];
+
+	for (var y = 0; y < raster.height; y++) {
+
+if (y % 2 === 0){ 
+
+		for(var x = 0; x < raster.width; x++) {
+			// Get the color of the pixel:
+			var color = raster.getPixel(x, y);
+         perf.push({X:x*spacing,Y:y*spacing,scale:parseFloat((1 - color.gray).toFixed(3))});
+		}
+}
+
+else if (y % 2 === 1){
+      for(var x = raster.width-1; x >= 0; x--) {
+			var color = raster.getPixel(x, y);
+         perf.push({X:x*spacing,Y:y*spacing,scale:parseFloat((1 - color.gray).toFixed(3))});
+
+      }
+}
+
+}
+//console.log(perf)
+
+
+}
+
+
+
+function make(){
+
+/*
+var material = eval('({' + (document.getElementById("material").value) + '})');
+
+var pass = 1
+var pass_no = (document.getElementById("thickness").value/(document.getElementById("tool").value*25.4)).toFixed(0)
+if(pass_no==0){
+   pass_no=1
+}
+
+var pass_depth = document.getElementById("thickness").value/pass_no
+*/
+var depth = document.getElementById("depth").value
+
+//console.log(depth)
+
+g=""
+
+//header
+g+="g21\n"
+g+="g0z5\n"
+g+="m4\n"
+g+="g4p2\n"
+g+="g1f800\n"
+
+   for(i=0;i<perf.length;i++){
+
+      g+=("g0x" + (perf[i].X).toFixed(2) + "y" + ((hmax*spacing)+(0-perf[i].Y)).toFixed(2) + "\n")
+      g+=("g1z-" + (perf[i].scale*depth).toFixed(2) + "\n")
+      g+=("g0z1\n")
+
+   }
+
+g+="m5\n"
+g+="g0x0y0\n"
+g+="m30\n"
+
+
+fabmo.submitJob({
+   file : g,
+   filename : 'pic.g',
+   name : "image",
+   description : "image"
+});
+
+
+g=""
+
+}
+
+
+
+
+
+// toggle full screen
+function toggleFullScreen() {
+  if (!document.fullscreenElement &&    // alternative standard method
+      !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) {
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  } else {
+    if (document.cancelFullScreen) {
+      document.cancelFullScreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitCancelFullScreen) {
+      document.webkitCancelFullScreen();
+    }
+  }
+}
+
+
+function startRead() {
+    file = document.getElementById("file").files[0];
+    if (file) {
+        if (file.type.match("image.*")) {
+            getAsImage(file);
+            alert("LOADING: " + file.name);
+        }
+        else {
+              alert("THAT IS NOT AN IMAGE FILE");
+//            getAsText(file);
+//            alert("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);
+        }
+    }
+//    evt.stopPropagation();
+//    evt.preventDefault();
+}
+
+function getAsImage(readFile) {
+    var reader = new FileReader();
+    reader.readAsDataURL(readFile);
+    reader.onload = addImg;
+}
+function addImg(imgsrc) {
+    var img = document.createElement("img");
+    $("#image").attr("src",imgsrc.target.result);
+
+
+    setTimeout('sizeImg()', 1000)
+  
+}
+
+function jobInfo(){
+
+alert(file.name + "\nwidth:" + wmax*spacing + " height:" + hmax*spacing + " mm\nwidth:" + wmax + " height:" + hmax + " pixels\nspacing:" + spacing + " mm")
+
+}
+
+</script>
+
+
+</body>
+</html>
+
