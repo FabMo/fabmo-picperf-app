@@ -214,7 +214,9 @@ void draw(){
 
 background(220);
 
+if(perf.length>0){
 sf2 = (($(window).innerHeight()-180)/(perf[perf.length-1].Y));
+} 
 
 size($(window).innerWidth()-30,$(window).innerHeight()-180);
 
@@ -248,8 +250,9 @@ noFill();
 
 if(document.getElementById("cutout").checked==true){
 
-
+if(perf.length>0){
 cutout();
+}
 
 }
 
@@ -352,7 +355,7 @@ var perf = []
 var wmax
 var canvas
 var raster
-var file = ({name:"MonaLisaSmile.jpg"})
+var image = ({name:"MonaLisaSmile.jpg"})
 var hmax//no of dots high
 var spacing //grid spacing mm
 
@@ -445,9 +448,9 @@ g+="m30\n"
 
 fabmo.submitJob({
    file : g,
-   filename : 'pic.g',
-   name : "image",
-   description : "image"
+   filename : image.file + '.g',
+   name : image.name,
+   description : ("width: "+(wmax*spacing)+" height: "+(hmax*spacing) +" mm")
 });
 
 
@@ -483,11 +486,11 @@ function toggleFullScreen() {
 
 
 function startRead() {
-    file = document.getElementById("file").files[0];
-    if (file) {
-        if (file.type.match("image.*")) {
-            getAsImage(file);
-            alert("LOADING: " + file.name);
+    image = document.getElementById("file").files[0];
+    if (image) {
+        if (image.type.match("image.*")) {
+            getAsImage(image);
+            alert("LOADING: " + image.name);
         }
         else {
               alert("THAT IS NOT AN IMAGE FILE");
@@ -515,7 +518,7 @@ function addImg(imgsrc) {
 
 function jobInfo(){
 
-alert(file.name + "\nwidth:" + wmax*spacing + " height:" + hmax*spacing + " mm\nwidth:" + wmax + " height:" + hmax + " pixels\nspacing:" + spacing + " mm")
+alert(image.name + "\nwidth: " + wmax*spacing + " height: " + hmax*spacing + " mm\nwidth: " + wmax + " height: " + hmax + " dots\ndot spacing: " + spacing + " mm\n# of dots: " + (hmax*wmax))
 
 }
 
