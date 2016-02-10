@@ -182,7 +182,7 @@
   <div data-role="footer" style="text-align:center;">
 
 
-    <a href="#pagezero" onclick="reload();" class="ui-btn ui-corner-all ui-shadow ui-icon-carat-r ui-btn-icon-right">MAKE TEXT</a>
+    <a href="#pagezero"  onclick="sizeImg()" class="ui-btn ui-corner-all ui-shadow ui-icon-carat-r ui-btn-icon-right">PicPerf</a>
   </div>
 </div> 
 
@@ -431,7 +431,7 @@ g+="g21\n"
 g+="g0z5\n"
 g+="m4\n"
 g+="g4p2\n"
-g+="g1f800\n"
+g+="g1f500\n"
 
    for(i=0;i<perf.length;i++){
 
@@ -441,6 +441,7 @@ g+="g1f800\n"
 
    }
 
+g+="g0z5\n"
 g+="m5\n"
 g+="g0x0y0\n"
 g+="m30\n"
@@ -450,7 +451,7 @@ fabmo.submitJob({
    file : g,
    filename : image.file + '.g',
    name : image.name,
-   description : ("width: "+(wmax*spacing)+" height: "+(hmax*spacing) +" mm")
+   description : ("width:"+(wmax*spacing)+" height:"+(hmax*spacing) +" mm")
 });
 
 
