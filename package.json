@@ -2,7 +2,7 @@
 	"name":"PicPerf",
 	"main":"./index.html",
 	"icon":"icon.png",
-	"icon_color":"blue",
+	"icon_color":"navy",
 	"version":"0.0.2",
 	"author":"Jonathan Ward",
 	"website":"http://github.com/FabMo/",
