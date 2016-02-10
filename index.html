@@ -136,7 +136,7 @@
         <label for="depth">MAX DEPTH</label>
         <select name="depth" id="depth">
           <option value="0.5">0.5 mm</option>
-          <option value="1" selected>1 mm"</option>
+          <option value="1" selected>1 mm</option>
           <option value="1.5">1.5 mm</option>
 
 
@@ -189,14 +189,7 @@
 
 <script type="application/processing" data-processing-target="2D">
 
-int verts = 100;
-int radius = 40;
-int sf2;
-int sf = 1;
-int x = 0;
-int y = 0;
-int sf;
-perf = [];
+float sf2;
 
 void setup(){
    size($(window).innerWidth()-30,$(window).innerHeight()-180);
@@ -215,26 +208,16 @@ void draw(){
 background(220);
 
 if(perf.length>0){
-sf2 = (($(window).innerHeight()-180)/(perf[perf.length-1].Y));
+   sf2 = (($(window).innerHeight()-180)/(perf[perf.length-1].Y+(spacing*4)));
 } 
 
 size($(window).innerWidth()-30,$(window).innerHeight()-180);
-
 corners();
-//console.log("w:" + width + " h:" + height);
 
 fill(0);
-//stroke(0);
 noStroke();
-
 scale(sf2);
-
-translate(height*0.05/sf2,height*0.05/sf2);
-
-scale(0.9);
-
-
-strokeWeight(1/sf2);
+translate(spacing*2,spacing*2);
 
 if(perf.length>0){
 
@@ -245,15 +228,11 @@ if(perf.length>0){
    }
 }
 
-noFill();
-
 
 if(document.getElementById("cutout").checked==true){
-
-if(perf.length>0){
-cutout();
-}
-
+   if(perf.length>0){
+      cutout();
+   }
 }
 
 
@@ -263,6 +242,8 @@ cutout();
 
 void cutout(){
 
+noFill();
+strokeWeight(1/sf2);
 stroke(0);
 
 beginShape();
@@ -290,15 +271,6 @@ for (i=0;i<=100;i++) {
 }
 endShape();
 
-/*
-   beginShape();
-   vertex(-spacing,-spacing);
-   vertex(perf[wmax-1].X+spacing,-spacing);
-   vertex(perf[wmax-1].X+spacing,perf[wmax*hmax-1].Y+spacing);
-   vertex(-spacing,perf[wmax*hmax-1].Y+spacing);
-   vertex(-spacing,-spacing);
-   endShape();
-*/
 
 }
 
@@ -356,7 +328,7 @@ var wmax
 var canvas
 var raster
 var image = ({name:"MonaLisaSmile.jpg"})
-var hmax//no of dots high
+var hmax //no of dots high
 var spacing //grid spacing mm
 
 function sizeImg(){
