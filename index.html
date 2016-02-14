@@ -144,14 +144,7 @@
       </fieldset>
     </form>
 
-    <form method="post">
-      <fieldset class="ui-field-contain">
-        <label for="material">MATERIAL TYPE</label>
-        <select name="material" id="material">
-          <option value="feed:5000,plunge:1500" selected>PLYWOOD</option>
-        </select>
-      </fieldset>
-    </form>
+
 <!--
     <form method="post">
       <fieldset class="ui-field-contain">
@@ -165,19 +158,28 @@
       </fieldset>
     </form>
 
-
+-->
     <form method="post">
       <fieldset class="ui-field-contain">
         <label for="day">CUTTING TOOL</label>
         <select name="tool" id="tool">
 
-          <option value="60" selected>60 deg V</option>
-
-
+          <option value="45" selected>45 deg V</option>
+          <option value="60">60 deg V</option>
         </select>
       </fieldset>
     </form>
--->
+
+    <form method="post">
+      <fieldset class="ui-field-contain">
+        <label for="material">MATERIAL TYPE</label>
+        <select name="material" id="material">
+          <option value="feed:5000,plunge:1500" selected>PLYWOOD</option>
+        </select>
+      </fieldset>
+    </form>
+
+
 </div>
   <div data-role="footer" style="text-align:center;">
 
@@ -194,16 +196,14 @@ float sf2;
 void setup(){
    size($(window).innerWidth()-30,$(window).innerHeight()-180);
    background(220);
-   noFill();
    smooth();  
    frameRate(1);
    strokeCap(ROUND);
-   strokeWeight(1);
-   textFont(createFont("Arial",6));
+   rectMode(CENTER);
+
 }
 
 void draw(){
-
 
 background(220);
 
