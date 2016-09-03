@@ -138,8 +138,10 @@
           <option value="0.5">0.5 mm</option>
           <option value="1" selected>1 mm</option>
           <option value="1.5">1.5 mm</option>
-
-
+          <option value="2">2 mm</option>
+          <option value="3">3 mm</option>
+          <option value="4">4 mm</option>
+          <option value="5">5 mm</option>
         </select>
       </fieldset>
     </form>
@@ -175,6 +177,16 @@
         <label for="material">MATERIAL TYPE</label>
         <select name="material" id="material">
           <option value="feed:5000,plunge:1500" selected>PLYWOOD</option>
+        </select>
+      </fieldset>
+    </form>
+
+    <form method="post">
+      <fieldset class="ui-field-contain">
+        <label for="output">OUTPUT</label>
+        <select name="output" id="output">
+          <option value="gcode" selected>GCODE</option>
+          <option value="dxf">DXF</option>
         </select>
       </fieldset>
     </form>
@@ -327,7 +339,7 @@ var perf = []
 var wmax
 var canvas
 var raster
-var image = ({name:"MonaLisaSmile.jpg"})
+var image = {name:"MonaLisaSmile.jpg"}
 var hmax //no of dots high
 var spacing //grid spacing mm
 
@@ -341,6 +353,8 @@ canvas = document.getElementById('myCanvas')
 paper.setup(canvas)
 
 raster = new paper.Raster('image')
+
+
 
 //console.log(raster.width);
 
@@ -392,6 +406,10 @@ if(pass_no==0){
 
 var pass_depth = document.getElementById("thickness").value/pass_no
 */
+
+
+if(document.getElementById("output").value=="gcode"){
+
 var depth = document.getElementById("depth").value
 
 //console.log(depth)
@@ -403,7 +421,7 @@ g+="g21\n"
 g+="g0z5\n"
 g+="m4\n"
 g+="g4p2\n"
-g+="g1f500\n"
+g+="g1f250\n"
 
    for(i=0;i<perf.length;i++){
 
@@ -426,8 +444,46 @@ fabmo.submitJob({
    description : ("width:"+(wmax*spacing)+" height:"+(hmax*spacing) +" mm")
 });
 
-
 g=""
+
+}
+
+else if(document.getElementById("output").value=="dxf"){
+
+
+var dxf = "0\nSECTION\n2\nENTITIES\n999\nw4rd.com\n0\n"
+
+/*
+CIRCLE
+8
+0
+10
+ 5.0 //x
+20
+ 5.0 //y
+40
+ 1.0 //radius
+0
+*/
+
+for(i=0;i<perf.length;i++){
+	dxf+="CIRCLE\n8\n0\n10\n"
+	dxf+=(perf[i].X).toFixed(2)+"\n20\n"
+	dxf+=((hmax*spacing)+(0-(perf[i].Y))).toFixed(2)+"\n40\n"
+	dxf+=(perf[i].scale/2).toFixed(2) + "\n0\n"
+}
+
+
+dxf+="ENDSEC\n0\nEOF"
+
+fabmo.submitJob({
+   file : dxf,
+   filename : image.file + '.dxf',
+   name : "",
+   description : ("")
+});
+
+}
 
 }
 
