@@ -46,8 +46,6 @@
 #myCanvas {
    display:none;
 }
-
-
 #downloadLink {
    display:none;
 }
@@ -105,86 +103,31 @@
 
     <form method="post">
       <fieldset class="ui-field-contain">
-        <label for="dots">IMAGE HEIGHT</label>
-        <select name="dots" id="dots">
-          <option value="10">10 dots</option>
-          <option value="20">20 dots</option>
-          <option value="30">30 dots</option>
-          <option value="40">40 dots</option>
-          <option value="50" selected>50 dots</option>
-          <option value="60">60 dots</option>
-          <option value="70">70 dots</option>
-          <option value="80">80 dots</option>
-          <option value="90">90 dots</option>
-          <option value="100">100 dots</option>
-        </select>
-      </fieldset>
-    </form>
-
-    <form method="post">
-      <fieldset class="ui-field-contain">
-        <label for="spacing">DOT SPACING</label>
-        <select name="spacing" id="spacing">
-          <option value="1" selected>1 mm</option>
-          <option value="1.2">1.2 mm</option>
-          <option value="1.5">1.5 mm</option>
-          <option value="2">2 mm</option>
-          <option value="2.5">2.5 mm</option>
-          <option value="3">3 mm</option>
-        </select>
-      </fieldset>
-    </form>
-<!--
-    <form method="post">
-      <fieldset class="ui-field-contain">
-        <label for="depth">MAX DEPTH</label>
-        <select name="depth" id="depth">
-          <option value="0.5">0.5 mm</option>
-          <option value="1" selected>1 mm</option>
-          <option value="1.5">1.5 mm</option>
-          <option value="2">2 mm</option>
-          <option value="3">3 mm</option>
-          <option value="4">4 mm</option>
-          <option value="5">5 mm</option>
-        </select>
-      </fieldset>
-    </form>
-
-
-
-    <form method="post">
-      <fieldset class="ui-field-contain">
-        <label for="material">MATERIAL THICKNESS</label>
-        <select name="mthickness" id="mthickness">
-          <option value="1.7" selected>0.0625"</option>
-          <option value="3.25">0.125"</option>
-          <option value="6.5">0.25"</option>
-          <option value="13">0.5"</option>
-        </select>
+        <label for="dots">HEIGHT (dots)</label>
+		  <input id="dots" type="number" value="50" min="10" max="140" step="1"/>
       </fieldset>
     </form>
 
 
     <form method="post">
       <fieldset class="ui-field-contain">
-        <label for="day">CUTTING TOOL</label>
-        <select name="tool" id="tool">
-
-          <option value="45" selected>45 deg V</option>
-          <option value="60">60 deg V</option>
-        </select>
+        <label for="spacing">SPACING (mm)</label>
+		  <input id="spacing" type="number" value="1" min="0.1" max="5" step="0.1"/>
       </fieldset>
     </form>
 
     <form method="post">
       <fieldset class="ui-field-contain">
-        <label for="material">MATERIAL TYPE</label>
-        <select name="material" id="material">
-          <option value="feed:5000,plunge:1500" selected>PLYWOOD</option>
+        <label for="perf">PERF TYPE</label>
+		  <select name="output" id="output">
+          <option value="circle90" selected>CIRCLE 90&deg;</option>
+			 <!--
+          <option value="circle45">CIRCLES 45&deg;</option>
+			 -->
         </select>
       </fieldset>
     </form>
--->
+
     <form method="post">
       <fieldset class="ui-field-contain">
         <label for="output">OUTPUT</label>
