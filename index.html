@@ -109,7 +109,7 @@
     <form method="post">
       <fieldset class="ui-field-contain">
         <label for="dots">HEIGHT (dots)</label>
-		  <input id="dots" type="number" value="50" min="10" max="140" step="1"/>
+		  <input id="dots" type="number" value="25" min="10" max="140" step="1"/>
       </fieldset>
     </form>
 
@@ -212,7 +212,7 @@ void draw(){
 
 	//if(document.getElementById("cutout").checked==true){
 	//   if(perf.length>0){
-	      //cutout();
+	//      cutout();
 	//   }
 	//}
 }
@@ -295,15 +295,14 @@ var canvas
 var raster
 var raster2
 var image = {name:"MonaLisaSmile.jpg",file:"MonaLisaSmile"}
-var hmax //no of dots high
-var spacing //grid spacing mm
+var hmax 
+var spacing 
 var point
 var path
 var rgb = []
 
 function sizeImg(){
 
-	//console.log(document.getElementById('dots').value)
 	hmax = parseInt(document.getElementById('dots').value)
 	spacing = parseFloat(document.getElementById('spacing').value)
 	canvas = document.getElementById('myCanvas')
@@ -323,9 +322,6 @@ function sizeImg(){
    perf=[]
 
 	console.log(raster.width)
-
-
-
 
 if(document.getElementById("perf").value=="hex"){
 
@@ -353,10 +349,9 @@ if(document.getElementById("perf").value=="hex"){
 
 	}
 }
+else{
 
-
-
-	for (var y = 0; y < raster.height; y++) {
+for (var y = 0; y < raster.height; y++) {
 
 
 if(document.getElementById("perf").value=="circle45"){
@@ -395,6 +390,7 @@ else if(document.getElementById("perf").value=="circle90"){
 
 }
 
+}
 }
 //console.log(perf)
 
