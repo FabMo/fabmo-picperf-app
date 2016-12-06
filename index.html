@@ -607,7 +607,12 @@ function addImg(imgsrc) {
 
 function jobInfo(){
 
-	alert(image.name + "\nwidth: " + (wmax*spacing).toFixed(2) + " height: " + (hmax*spacing).toFixed(2) + " mm\nwidth: " + wmax + " height: " + hmax + " dots\ndot spacing: " + spacing + " mm\n# of dots: " + (hmax*wmax))
+	if(fabmo.isPresent()==true){
+		fabmo.notify('info',image.name + "\nwidth: " + (wmax*spacing).toFixed(2) + " height: " + (hmax*spacing).toFixed(2) + " mm\nwidth: " + wmax + " height: " + hmax + " dots\ndot spacing: " + spacing + " mm\n# of dots: " + (hmax*wmax))
+	}
+	else{
+		alert(image.name + "\nwidth: " + (wmax*spacing).toFixed(2) + " height: " + (hmax*spacing).toFixed(2) + " mm\nwidth: " + wmax + " height: " + hmax + " dots\ndot spacing: " + spacing + " mm\n# of dots: " + (hmax*wmax))
+	}
 	
 }
 
