@@ -81,8 +81,8 @@
        <span>LOAD IMAGE</span>
        <input type="file" name="files[]" id="file" multiple data-role="none"/>
     </span>
-    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-action ui-btn-icon-right" onclick="make();">SUBMIT JOB</a>
-	 <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-action ui-btn-icon-right" id="downloadLink" onclick="make();">Download</a>
+    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-action ui-btn-icon-right" onclick="make()">SUBMIT JOB</a>
+	 <a href="#" class="ui-btn ui-corner-all ui-shadow ui-icon-action ui-btn-icon-right" id="downloadLink">Download</a>
   </div>
 </div> 
 <div data-role="page" id="pageone">
@@ -454,6 +454,9 @@ function make(){
 
 	else if(document.getElementById("output").value=="dxf"){
 
+		alert(document.getElementById("output").value)
+		alert(document.getElementById("perf").value)
+
 		var dxf = "0\nSECTION\n2\nENTITIES\n999\nw4rd.com\n0\n"
 
 		if(document.getElementById("perf").value=="hex"){
@@ -467,7 +470,7 @@ function make(){
 				dxf+="SEQEND\n0\n"
 			}
 		}
-		if(document.getElementById("perf").value=="square90"){
+		else if(document.getElementById("perf").value=="square90"){
 			for(i=0;i<perf.length;i++){
 				dxf+="POLYLINE\n8\n0\n70\n1\n0\n"
 				for(j=0;j<=4;j++){
